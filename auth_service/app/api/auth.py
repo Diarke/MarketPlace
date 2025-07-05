@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.status import HTTP_401_UNAUTHORIZED
 
-from app.schemas.user import UserCreate, UserOut
+from app.schemas.user import UserCreate, UserOut, Roles
 from app.services.auth import register_user, authenticate_user, get_current_user
 from app.core.security import create_access_token
 from app.database.session import get_db
