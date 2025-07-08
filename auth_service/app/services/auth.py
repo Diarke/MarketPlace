@@ -19,7 +19,7 @@ async def register_user(user_create: UserCreate, db: AsyncSession):
     user = User(
         username = user_create.username,
         email = user_create.email,
-        password = hash_password(user_create.password),
+        hashed_password = hash_password(user_create.password),
         role = user_create.role
     )
     db.add(user)
@@ -28,8 +28,8 @@ async def register_user(user_create: UserCreate, db: AsyncSession):
     return user
 
 
-async def authenticate_user(username: str, email: str, password: str, role: str, db: AsyncSession):
-    result = await db.execute(select(User).where(User.username == username) and select(User).where(User.email == email) and select(User).where(User.role == role))
+async def authenticate_user(username: str, password: str, db: AsyncSession):
+    result = await db.execute(select(User).where(User.username == username))
     user = result.scalar_one_or_none()
     if not user or not verify_password(password, user.hashed_password):
         None
